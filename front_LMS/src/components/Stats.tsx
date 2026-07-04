@@ -83,30 +83,24 @@ export function Stats() {
     format: 'compact'
   }];
   return (
-    <section className="py-20 bg-brand-600 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-24 relative overflow-hidden">
+      {/* Background ambient glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 20
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0
-          }}
-          viewport={{
-            once: true
-          }}
-          transition={{
-            duration: 0.5
-          }}
-          className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-6 md:divide-x divide-white/20">
-          
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="grid grid-cols-2 md:grid-cols-5 gap-8 md:gap-6 md:divide-x divide-white/10 p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md shadow-2xl"
+        >
           {STATS.map((stat) =>
-          <Counter key={stat.label} stat={stat} />
+            <Counter key={stat.label} stat={stat} />
           )}
         </motion.div>
       </div>
-    </section>);
+    </section>
+  );
 
 }

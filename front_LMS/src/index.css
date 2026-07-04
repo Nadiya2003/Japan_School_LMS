@@ -9,17 +9,17 @@
 /* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
 
 :root {
-  /* Light theme tokens (dark-mode-ready) */
-  --color-ink: 15 23 42;        /* #0F172A */
-  --color-surface: 255 255 255; /* #FFFFFF */
-  --color-muted: 248 250 252;   /* #F8FAFC */
-  --color-line: 229 231 235;    /* #E5E7EB */
+  /* Dark theme tokens (modern glassmorphism base) */
+  --color-ink: 255 255 255;       /* white */
+  --color-surface: 2 8 23;        /* #020817 */
+  --color-muted: 10 15 46;        /* #0a0f2e */
+  --color-line: 255 255 255 0.1;  /* semi-transparent white line */
 }
 .dark {
-  --color-ink: 241 245 249;
-  --color-surface: 15 23 42;
-  --color-muted: 30 41 59;
-  --color-line: 51 65 85;
+  --color-ink: 255 255 255;
+  --color-surface: 2 8 23;
+  --color-muted: 10 15 46;
+  --color-line: 255 255 255 0.1;
 }
 html {
   scroll-behavior: smooth;

@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Star, Quote } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+
 const TESTIMONIALS = [
 {
   name: 'Sarah Jenkins',
@@ -30,13 +31,16 @@ const TESTIMONIALS = [
 export function Testimonials() {
   const { t } = useTranslation();
   return (
-    <section className="py-24 bg-muted/50 border-t border-line">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-24 relative overflow-hidden">
+      {/* Background ambient glow */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-violet-600/10 rounded-full blur-[100px] pointer-events-none -translate-y-1/2 translate-x-1/3" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-ink mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             {t('testimonials.title')}
           </h2>
-          <p className="text-lg text-ink/70">
+          <p className="text-lg text-white/70">
             {t('testimonials.subtitle')}
           </p>
         </div>
@@ -45,32 +49,21 @@ export function Testimonials() {
           {TESTIMONIALS.map((testimonial, idx) =>
           <motion.div
             key={idx}
-            initial={{
-              opacity: 0,
-              scale: 0.95
-            }}
-            whileInView={{
-              opacity: 1,
-              scale: 1
-            }}
-            viewport={{
-              once: true
-            }}
-            transition={{
-              duration: 0.5,
-              delay: idx * 0.1
-            }}
-            className="bg-white p-8 rounded-3xl border border-line shadow-sm hover:shadow-lift transition-all duration-300 relative">
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: idx * 0.1 }}
+            className="bg-white/5 p-8 rounded-3xl border border-white/10 backdrop-blur-sm shadow-xl hover:shadow-[0_0_30px_rgba(34,211,238,0.15)] hover:-translate-y-1 transition-all duration-300 relative group">
             
-              <Quote className="absolute top-8 right-8 w-10 h-10 text-brand-100" />
+              <Quote className="absolute top-8 right-8 w-10 h-10 text-white/10 group-hover:text-cyan-500/20 transition-colors" />
 
-              <div className="flex gap-1 mb-6 text-yellow-400">
+              <div className="flex gap-1 mb-6 text-yellow-400 drop-shadow-sm">
                 {[1, 2, 3, 4, 5].map((i) =>
               <Star key={i} className="w-5 h-5 fill-current" />
               )}
               </div>
 
-              <p className="text-ink/80 leading-relaxed mb-8 relative z-10">
+              <p className="text-white/80 leading-relaxed mb-8 relative z-10 font-medium">
                 "{testimonial.text}"
               </p>
 
@@ -78,11 +71,11 @@ export function Testimonials() {
                 <img
                 src={testimonial.avatar}
                 alt={testimonial.name}
-                className="w-12 h-12 rounded-full object-cover" />
+                className="w-12 h-12 rounded-full object-cover border-2 border-white/10" />
               
                 <div>
-                  <div className="font-bold text-ink">{testimonial.name}</div>
-                  <div className="text-xs font-medium text-brand-600">
+                  <div className="font-bold text-white">{testimonial.name}</div>
+                  <div className="text-xs font-semibold text-cyan-400 mt-0.5">
                     {testimonial.level} • {testimonial.country}
                   </div>
                 </div>
@@ -91,6 +84,6 @@ export function Testimonials() {
           )}
         </div>
       </div>
-    </section>);
-
+    </section>
+  );
 }

@@ -68,10 +68,10 @@ function QuizDemo() {
   const [picked, setPicked] = useState<number | null>(null);
   return (
     <div>
-      <div className="text-sm font-medium text-brand-600 mb-2">
+      <div className="text-sm font-medium text-cyan-400 mb-2">
         Vocabulary • N5
       </div>
-      <h4 className="text-lg font-bold text-ink mb-5">
+      <h4 className="text-lg font-bold text-white mb-5">
         How do you say “thank you” in Japanese?
       </h4>
       <div className="grid sm:grid-cols-2 gap-3">
@@ -82,14 +82,14 @@ function QuizDemo() {
             <button
               key={i}
               onClick={() => setPicked(i)}
-              className={`flex items-center justify-between px-4 py-3 rounded-xl border text-left font-jp text-ink transition-all ${showState && opt.correct ? 'border-green-500 bg-green-50' : showState && isPicked ? 'border-red-400 bg-red-50' : 'border-line bg-white hover:border-brand-300 hover:bg-brand-50/50'}`}>
+              className={`flex items-center justify-between px-4 py-3 rounded-xl border text-left font-jp transition-all ${showState && opt.correct ? 'border-emerald-500 bg-emerald-500/20 text-emerald-300' : showState && isPicked ? 'border-rose-500 bg-rose-500/20 text-rose-300' : 'border-white/10 bg-white/5 hover:border-cyan-500/50 hover:bg-cyan-500/10 text-white'}`}>
               
               {opt.label}
               {showState && opt.correct &&
-              <Check className="w-4 h-4 text-green-600" />
+              <Check className="w-4 h-4 text-emerald-400" />
               }
               {showState && isPicked && !opt.correct &&
-              <X className="w-4 h-4 text-red-500" />
+              <X className="w-4 h-4 text-rose-400" />
               }
             </button>);
 
@@ -116,20 +116,20 @@ function FlashcardDemo() {
           }}
           className="absolute inset-0 [transform-style:preserve-3d]">
           
-          <div className="absolute inset-0 rounded-2xl border border-line bg-white shadow-soft flex items-center justify-center [backface-visibility:hidden]">
-            <span className="text-6xl font-jp font-bold text-ink">水</span>
+          <div className="absolute inset-0 rounded-2xl border border-white/20 bg-white/10 flex items-center justify-center [backface-visibility:hidden]">
+            <span className="text-6xl font-jp font-bold text-white">水</span>
           </div>
-          <div className="absolute inset-0 rounded-2xl border border-brand-200 bg-brand-50 shadow-soft flex flex-col items-center justify-center [transform:rotateY(180deg)] [backface-visibility:hidden]">
-            <span className="text-2xl font-jp font-bold text-brand-700">
+          <div className="absolute inset-0 rounded-2xl border border-cyan-500/50 bg-cyan-500/20 flex flex-col items-center justify-center [transform:rotateY(180deg)] [backface-visibility:hidden]">
+            <span className="text-2xl font-jp font-bold text-cyan-300">
               みず
             </span>
-            <span className="text-sm text-ink/60 mt-1">water</span>
+            <span className="text-sm text-cyan-300/80 mt-1">water</span>
           </div>
         </motion.div>
       </button>
       <button
         onClick={() => setFlipped((f) => !f)}
-        className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-brand-600">
+        className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition-colors">
         
         <RotateCw className="w-4 h-4" /> Tap to flip
       </button>
@@ -139,15 +139,15 @@ function FlashcardDemo() {
 function KanjiDemo() {
   return (
     <div className="flex flex-col items-center">
-      <div className="relative w-40 h-40 rounded-2xl border-2 border-dashed border-brand-200 bg-white flex items-center justify-center">
-        <span className="absolute text-8xl font-jp text-brand-100 select-none">
+      <div className="relative w-40 h-40 rounded-2xl border-2 border-dashed border-cyan-500/30 bg-white/5 flex items-center justify-center">
+        <span className="absolute text-8xl font-jp text-white/[0.05] select-none">
           学
         </span>
         <motion.svg viewBox="0 0 100 100" className="w-32 h-32 relative">
           <motion.path
             d="M50 15 L50 85 M25 40 L75 40 M35 60 L65 60"
             fill="none"
-            stroke="#2563EB"
+            stroke="#22d3ee"
             strokeWidth="4"
             strokeLinecap="round"
             initial={{
@@ -166,9 +166,9 @@ function KanjiDemo() {
           
         </motion.svg>
       </div>
-      <p className="text-sm text-ink/60 mt-5">
+      <p className="text-sm text-white/60 mt-5">
         Follow the guided stroke order for{' '}
-        <span className="font-jp font-bold text-ink">学</span> (study)
+        <span className="font-jp font-bold text-white">学</span> (study)
       </p>
     </div>);
 
@@ -179,7 +179,7 @@ function ListeningDemo() {
     <div className="flex flex-col items-center">
       <button
         onClick={() => setPlaying((p) => !p)}
-        className="w-16 h-16 rounded-full bg-brand-600 text-white flex items-center justify-center shadow-glow"
+        className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-400 to-cyan-600 text-white flex items-center justify-center shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:scale-105 transition-transform"
         aria-label={playing ? 'Pause audio' : 'Play audio'}>
         
         <Headphones className="w-7 h-7" />
@@ -190,7 +190,7 @@ function ListeningDemo() {
         }).map((_, i) =>
         <motion.span
           key={i}
-          className="w-1.5 rounded-full bg-brand-400"
+          className="w-1.5 rounded-full bg-cyan-400"
           animate={
           playing ?
           {
@@ -209,7 +209,7 @@ function ListeningDemo() {
 
         )}
       </div>
-      <p className="text-sm text-ink/60 mt-5">
+      <p className="text-sm text-white/60 mt-5">
         Listen and transcribe the sentence you hear.
       </p>
     </div>);
@@ -219,27 +219,27 @@ function AiDemo() {
   return (
     <div className="space-y-3">
       <div className="flex justify-end">
-        <div className="max-w-[80%] px-4 py-2.5 rounded-2xl rounded-tr-sm bg-brand-600 text-white text-sm">
+        <div className="max-w-[80%] px-4 py-2.5 rounded-2xl rounded-tr-sm bg-violet-600 text-white text-sm">
           How do I use the て-form politely?
         </div>
       </div>
       <div className="flex gap-2">
-        <div className="w-8 h-8 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center flex-shrink-0">
+        <div className="w-8 h-8 rounded-full bg-violet-500/20 text-violet-400 flex items-center justify-center flex-shrink-0">
           <Bot className="w-4 h-4" />
         </div>
-        <div className="max-w-[80%] px-4 py-2.5 rounded-2xl rounded-tl-sm bg-muted text-ink text-sm border border-line">
-          Add <span className="font-jp font-semibold">ください</span> after the
+        <div className="max-w-[80%] px-4 py-2.5 rounded-2xl rounded-tl-sm bg-white/10 text-white text-sm border border-white/10">
+          Add <span className="font-jp font-semibold text-cyan-300">ください</span> after the
           て-form for polite requests — e.g.{' '}
-          <span className="font-jp font-semibold">待ってください</span> (“please
+          <span className="font-jp font-semibold text-cyan-300">待ってください</span> (“please
           wait”). Want to try one?
         </div>
       </div>
       <div className="flex items-center gap-2 pt-2">
-        <div className="flex-1 px-4 py-2.5 rounded-full border border-line bg-white text-sm text-ink/40">
+        <div className="flex-1 px-4 py-2.5 rounded-full border border-white/10 bg-white/5 text-sm text-white/50 focus-within:border-violet-500/50 transition-colors">
           Ask your AI tutor anything…
         </div>
-        <div className="w-10 h-10 rounded-full bg-brand-600 text-white flex items-center justify-center">
-          <Send className="w-4 h-4" />
+        <div className="w-10 h-10 rounded-full bg-violet-600 text-white flex items-center justify-center hover:bg-violet-500 cursor-pointer transition-colors">
+          <Send className="w-4 h-4 -ml-0.5" />
         </div>
       </div>
     </div>);
@@ -257,13 +257,16 @@ export function InteractiveLearning() {
   const [active, setActive] = useState<TabKey>('quiz');
   const { t } = useTranslation();
   return (
-    <section className="py-24 bg-muted/30 border-y border-line">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-24 border-y border-white/10 relative overflow-hidden">
+      {/* Background ambient glow */}
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 -translate-x-1/4" />
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <h2 className="text-3xl md:text-4xl font-bold text-ink mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             {t('interactive.title')}
           </h2>
-          <p className="text-lg text-ink/70">
+          <p className="text-lg text-white/70">
             {t('interactive.subtitle')}
           </p>
         </div>
@@ -275,7 +278,7 @@ export function InteractiveLearning() {
               <button
                 key={tab.key}
                 onClick={() => setActive(tab.key)}
-                className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${isActive ? 'bg-brand-600 text-white shadow-glow' : 'bg-white border border-line text-ink/70 hover:text-brand-600 hover:border-brand-200'}`}
+                className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all ${isActive ? 'bg-gradient-to-r from-cyan-500 to-violet-600 text-white shadow-glow border border-transparent' : 'bg-white/5 border border-white/10 text-white/70 hover:text-cyan-400 hover:border-cyan-500/50'}`}
                 aria-pressed={isActive}>
                 
                 <tab.icon className="w-4 h-4" />
@@ -285,7 +288,7 @@ export function InteractiveLearning() {
           })}
         </div>
 
-        <div className="max-w-2xl mx-auto bg-white rounded-3xl border border-line shadow-lift p-8 min-h-[320px] flex items-center">
+        <div className="max-w-2xl mx-auto bg-white/5 rounded-3xl border border-white/10 backdrop-blur-md shadow-2xl p-8 min-h-[320px] flex items-center">
           <div className="w-full">
             <AnimatePresence mode="wait">
               <motion.div

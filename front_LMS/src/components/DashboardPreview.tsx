@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 export function DashboardPreview() {
   const { t } = useTranslation();
   return (
-    <section className="py-32 bg-ink text-white overflow-hidden relative">
+    <section className="py-32 bg-[#020817] text-white overflow-hidden relative">
       {/* Dark mode background glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-600/20 rounded-full blur-[120px] pointer-events-none" />
 
