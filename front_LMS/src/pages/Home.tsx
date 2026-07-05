@@ -16,7 +16,7 @@ import { Footer } from '../components/Footer';
 import { SupportButton } from '../components/SupportButton';
 export function Home() {
   return (
-    <div className="min-h-screen bg-surface selection:bg-brand-200 selection:text-brand-900">
+    <div className="min-h-screen" style={{ background: 'var(--bg-base)' }}>
       <Navigation />
       <main>
         <Hero />
