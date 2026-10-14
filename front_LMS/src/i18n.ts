@@ -11,6 +11,7 @@ const resources = {
         motto: "Learn Japanese. Understand the Culture. Build Your Future."
       },
       nav: {
+        home: "Home",
         aboutUs: "About Us",
         impact: "Impact",
         grades: "Grades",
@@ -170,6 +171,7 @@ const resources = {
         motto: "ජපන් භාෂාව ඉගෙන ගන්න. සංස්කෘතිය තේරුම් ගන්න. ඔබේ අනාගතය ගොඩනගන්න."
       },
       nav: {
+        home: "මුල් පිටුව",
         aboutUs: "අප ගැන",
         impact: "ප්‍රතිලාභ",
         grades: "ශ්‍රේණි (JLPT)",
@@ -329,6 +331,7 @@ const resources = {
         motto: "日本語を学び、文化を理解し、未来を築く。"
       },
       nav: {
+        home: "ホーム",
         aboutUs: "当校について",
         impact: "学習成果",
         grades: "JLPTレベル",

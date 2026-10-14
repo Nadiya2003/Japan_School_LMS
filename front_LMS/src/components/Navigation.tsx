@@ -9,16 +9,19 @@ export function Navigation() {
   const { isDark, toggleTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>('about');
+  const [activeSection, setActiveSection] = useState<string>('home');
 
+  // Exact homepage section order:
+  // 1. Home, 2. About Us, 3. Impact, 4. Grades, 5. Resources, 6. What We Offer, 7. Blog, 8. Contact
   const navLinks = [
-    { key: 'aboutUs', label: t('nav.aboutUs'), targetId: 'about' },
-    { key: 'impact', label: t('nav.impact'), targetId: 'impact' },
-    { key: 'grades', label: t('nav.grades'), targetId: 'grades' },
-    { key: 'resources', label: t('nav.resources'), targetId: 'resources' },
-    { key: 'whatWeOffer', label: t('nav.whatWeOffer'), targetId: 'what-we-offer' },
-    { key: 'blog', label: t('nav.blog'), targetId: 'blog' },
-    { key: 'contact', label: t('nav.contact'), targetId: 'contact' },
+    { key: 'home', label: t('nav.home', 'Home'), targetId: 'home' },
+    { key: 'aboutUs', label: t('nav.aboutUs', 'About Us'), targetId: 'about' },
+    { key: 'impact', label: t('nav.impact', 'Impact'), targetId: 'impact' },
+    { key: 'grades', label: t('nav.grades', 'Grades'), targetId: 'grades' },
+    { key: 'resources', label: t('nav.resources', 'Resources'), targetId: 'resources' },
+    { key: 'whatWeOffer', label: t('nav.whatWeOffer', 'What We Offer'), targetId: 'what-we-offer' },
+    { key: 'blog', label: t('nav.blog', 'Blog'), targetId: 'blog' },
+    { key: 'contact', label: t('nav.contact', 'Contact'), targetId: 'contact' },
   ];
 
   // Track active section and scroll state
@@ -26,8 +29,15 @@ export function Navigation() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
 
-      const sectionIds = ['contact', 'blog', 'resources', 'what-we-offer', 'grades', 'impact', 'about'];
-      const scrollPosition = window.scrollY + 140;
+      // If user is near top, highlight "Home"
+      if (window.scrollY < 220) {
+        setActiveSection('home');
+        return;
+      }
+
+      // Check sections from bottom to top for active state
+      const sectionIds = ['contact', 'blog', 'what-we-offer', 'resources', 'grades', 'impact', 'about', 'home'];
+      const scrollPosition = window.scrollY + 160;
 
       for (const id of sectionIds) {
         const el = document.getElementById(id);
@@ -49,6 +59,13 @@ export function Navigation() {
 
   const scrollToSection = (targetId: string) => {
     setMobileMenuOpen(false);
+
+    if (targetId === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setActiveSection('home');
+      return;
+    }
+
     const element = document.getElementById(targetId);
     if (element) {
       const headerOffset = 112; // Height of the sticky navigation
@@ -59,6 +76,7 @@ export function Navigation() {
         top: offsetPosition,
         behavior: 'smooth',
       });
+      setActiveSection(targetId);
     } else {
       window.location.href = `/#${targetId}`;
     }
@@ -67,6 +85,7 @@ export function Navigation() {
   const scrollToTop = () => {
     setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    setActiveSection('home');
   };
 
   /* ── Derived theme-aware styling ── */
@@ -84,20 +103,24 @@ export function Navigation() {
 
   return (
     <header className="w-full fixed top-0 inset-x-0 z-50 flex flex-col">
-      {/* ── Top Bar: Natural Official Logo, Language Selector & Theme Toggle ── */}
+      {/* ── Top Bar: Logo Area with Permanent Clean White Background ── */}
       <div className={`transition-all duration-300 ${topBarBg}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex justify-between items-center">
           
-          {/* Authentic World Lanka Logo — Natural rendering without outline/border rectangle */}
+          {/* 
+            Requirement 3: DARK MODE - LOGO BACKGROUND
+            The small container directly behind the World Lanka logo remains clean WHITE
+            even in dark mode, keeping the original logo colors clearly visible with subtle rounded corners.
+          */}
           <button
             onClick={scrollToTop}
-            className="flex items-center group cursor-pointer focus:outline-none"
+            className="flex items-center group cursor-pointer focus:outline-none bg-white px-2.5 py-1 rounded-xl transition-transform hover:scale-[1.01]"
             title="World Lanka Japanese Education – The Cultural Center"
           >
             <img
               src="/logo.png"
               alt="WORLD LANKA JAPANESE EDUCATION – THE CULTURAL CENTER"
-              className="h-10 sm:h-11 md:h-12 w-auto object-contain transition-transform group-hover:scale-[1.01]"
+              className="h-9 sm:h-10 md:h-11 w-auto object-contain"
             />
           </button>
 
@@ -170,7 +193,7 @@ export function Navigation() {
                     key="moon"
                     initial={{ rotate: 90, opacity: 0 }}
                     animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
+                    exit={{ rotate: 90, opacity: 0 }}
                     transition={{ duration: 0.2 }}
                   >
                     <Moon className="w-4 h-4" />
@@ -195,8 +218,8 @@ export function Navigation() {
       <div className="w-full bg-[#151b54] dark:bg-[#0d1238] border-b border-[#202b78]/40 shadow-sm relative z-40 hidden lg:block">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-12 flex items-center justify-between">
           
-          {/* Navigation Links — Smooth Scrolling */}
-          <nav className="flex items-center gap-7">
+          {/* Navigation Links — Reordered to match homepage section order starting with Home, About Us */}
+          <nav className="flex items-center gap-6 xl:gap-7">
             {navLinks.map((link) => {
               const isActive = activeSection === link.targetId;
               return (
@@ -222,7 +245,7 @@ export function Navigation() {
             })}
           </nav>
 
-          {/* Quick Contact CTA — Premium Navy/White Contrast with Subtle Accent */}
+          {/* Quick Contact CTA — Clean White/Navy Treatment with subtle accent */}
           <button
             onClick={() => scrollToSection('contact')}
             className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold transition-all bg-white text-[#151b54] hover:bg-slate-100 shadow-xs cursor-pointer active:scale-95"
@@ -244,9 +267,11 @@ export function Navigation() {
           >
             <div className="px-5 py-5 space-y-2">
               <div className="pb-3 mb-2 border-b border-slate-100 dark:border-white/5 flex items-center justify-between">
-                <span className="text-xs font-semibold uppercase tracking-wider text-[#151b54] dark:text-slate-300">
-                  {t('brand.name')}
-                </span>
+                <div className="bg-white px-2 py-0.5 rounded-lg inline-block">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#151b54]">
+                    World Lanka
+                  </span>
+                </div>
                 <span className="text-xs font-semibold text-[#151b54] dark:text-sky-400">
                   The Cultural Center
                 </span>

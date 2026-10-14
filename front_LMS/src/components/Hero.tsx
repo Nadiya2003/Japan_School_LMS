@@ -21,7 +21,8 @@ export function Hero() {
 
   return (
     <section
-      className="relative min-h-[90vh] flex items-center overflow-hidden pt-32 lg:pt-38 pb-16 bg-shippo"
+      id="home"
+      className="relative min-h-[90vh] flex items-center overflow-hidden pt-32 lg:pt-38 pb-16 bg-shippo scroll-mt-28"
       style={{ backgroundColor: 'var(--bg-base)' }}
     >
       {/* ── Soft Japanese Navy Ambient Glow (Dominant Navy Theme) ── */}
