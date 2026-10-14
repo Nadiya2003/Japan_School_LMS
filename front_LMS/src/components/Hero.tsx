@@ -1,434 +1,215 @@
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { Sparkles, ArrowRight, PlayCircle, Star, Users, BookOpen, TrendingUp } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
-
-const floatVariants = {
-  initial: { y: 0 },
-  animate: {
-    y: [-8, 8, -8],
-    transition: { duration: 5, repeat: Infinity, ease: 'easeInOut' },
-  },
-};
-
-const pulseVariants = {
-  initial: { scale: 1, opacity: 0.7 },
-  animate: {
-    scale: [1, 1.12, 1],
-    opacity: [0.7, 1, 0.7],
-    transition: { duration: 3.5, repeat: Infinity, ease: 'easeInOut' },
-  },
-};
+import { ArrowRight, BookOpen, CheckCircle2, ChevronRight } from 'lucide-react';
 
 export function Hero() {
   const { t } = useTranslation();
-  const { isDark } = useTheme();
+
+  const scrollToSection = (targetId: string) => {
+    const element = document.getElementById(targetId);
+    if (element) {
+      const headerOffset = 112;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
+  };
 
   return (
     <section
-      className="relative min-h-screen flex items-center overflow-hidden"
+      className="relative min-h-[90vh] flex items-center overflow-hidden pt-32 lg:pt-38 pb-16 bg-shippo"
       style={{ backgroundColor: 'var(--bg-base)' }}
     >
-      {/* ── Gradient base ── */}
-      {isDark ? (
-        <div className="absolute inset-0 bg-gradient-to-br from-[#020817] via-[#0a0f2e] to-[#050c1a]" />
-      ) : (
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-violet-50/60 to-sky-50" />
-      )}
-
-      {/* ── Radial aurora glow blobs ── */}
+      {/* ── Soft Japanese Navy Ambient Glow (Dominant Navy Theme) ── */}
       <div
-        className="absolute top-[-10%] left-[-5%] w-[60vw] h-[60vw] rounded-full blur-[120px] pointer-events-none"
+        className="absolute top-0 right-0 w-[50vw] h-[50vw] max-w-[650px] max-h-[650px] rounded-full blur-[140px] pointer-events-none"
         style={{
-          background: isDark
-            ? 'rgba(79,70,229,0.18)'
-            : 'rgba(99,102,241,0.10)',
+          background: 'rgba(21, 27, 84, 0.05)',
         }}
       />
       <div
-        className="absolute bottom-[-5%] right-[-5%] w-[50vw] h-[50vw] rounded-full blur-[100px] pointer-events-none"
+        className="absolute bottom-0 left-0 w-[40vw] h-[40vw] max-w-[500px] max-h-[500px] rounded-full blur-[140px] pointer-events-none"
         style={{
-          background: isDark
-            ? 'rgba(6,182,212,0.12)'
-            : 'rgba(6,182,212,0.08)',
-        }}
-      />
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[30vw] h-[30vw] rounded-full blur-[80px] pointer-events-none"
-        style={{
-          background: isDark
-            ? 'rgba(124,58,237,0.10)'
-            : 'rgba(167,139,250,0.08)',
+          background: 'rgba(21, 27, 84, 0.04)',
         }}
       />
 
-      {/* ── Japanese kanji watermark ── */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
-        <span
-          className="text-[28vw] font-black leading-none tracking-tighter"
-          style={{
-            color: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.025)',
-            fontFamily: 'serif',
-          }}
-        >
+      {/* ── Very Subtle Japanese Kanji Watermark in Background ── */}
+      <div className="absolute inset-0 flex items-center justify-end pr-8 pointer-events-none select-none overflow-hidden opacity-[0.025] dark:opacity-[0.03]">
+        <span className="text-[24vw] font-serif-jp font-bold leading-none text-[#151b54] dark:text-white">
           日本語
         </span>
       </div>
 
-      {/* ── Dot grid overlay ── */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: isDark
-            ? 'radial-gradient(circle, rgba(99,102,241,0.08) 1px, transparent 1px)'
-            : 'radial-gradient(circle, rgba(99,102,241,0.06) 1px, transparent 1px)',
-          backgroundSize: '32px 32px',
-        }}
-      />
-
-      {/* ── Animated floating sakura petals ── */}
-      {[...Array(6)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full pointer-events-none"
-          style={{
-            width: `${8 + i * 4}px`,
-            height: `${8 + i * 4}px`,
-            left: `${10 + i * 14}%`,
-            top: `${15 + (i % 3) * 25}%`,
-            background: `radial-gradient(circle, rgba(${i % 2 === 0 ? '244,114,182' : '139,92,246'},${isDark ? '0.5' : '0.35'}) 0%, transparent 70%)`,
-          }}
-          animate={{
-            y: [0, -20 - i * 5, 0],
-            x: [0, 10 - i * 3, 0],
-            rotate: [0, 360],
-            opacity: isDark ? [0.3, 0.7, 0.3] : [0.2, 0.5, 0.2],
-          }}
-          transition={{
-            duration: 6 + i * 1.5,
-            repeat: Infinity,
-            ease: 'easeInOut',
-            delay: i * 0.8,
-          }}
-        />
-      ))}
-
-      {/* ── Main content ── */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-32 pb-20 lg:pt-40 lg:pb-32">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-
-          {/* ────── LEFT: Copy ────── */}
+      {/* ── Main Container ── */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+          
+          {/* ────── LEFT COLUMN: Institute Purpose & Sri Lankan Student Messaging ────── */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
+            className="lg:col-span-7"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
           >
-            {/* Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-8 backdrop-blur-sm ${
-                isDark
-                  ? 'border-indigo-500/40 bg-indigo-500/10'
-                  : 'border-indigo-400/30 bg-indigo-50/80'
-              }`}
-            >
-              <Sparkles className={`w-4 h-4 ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`} />
-              <span className={`text-sm font-semibold tracking-wide ${isDark ? 'text-indigo-300' : 'text-indigo-700'}`}>
-                #1 Japanese LMS Platform in Sri Lanka
+            {/* Institute & Sri Lanka Focus Pill */}
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full border mb-6 shadow-2xs backdrop-blur-md bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10">
+              <span className="w-2 h-2 rounded-full bg-[#151b54] dark:bg-sky-400" />
+              <span className="text-xs sm:text-sm font-semibold tracking-wide text-[#151b54] dark:text-slate-200">
+                {t('hero.badge')}
               </span>
-            </motion.div>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#cd2127]" />
+            </div>
 
-            {/* Headline */}
-            <h1 className="text-5xl lg:text-7xl xl:text-8xl font-extrabold leading-[1.05] tracking-tight mb-6">
-              <span className="block" style={{ color: 'var(--text-primary)' }}>
-                {t('hero.title1')}
+            {/* Redesigned Main Headline: Clear visual separation between lines, Navy Blue dominant */}
+            <h1 className="text-4xl sm:text-5xl lg:text-[3.75rem] font-extrabold tracking-tight leading-[1.16] mb-4">
+              <span className="block text-[#151b54] dark:text-white tracking-tight">
+                Your Journey to Japan
               </span>
-              <span className="relative block">
-                <span className="bg-gradient-to-r from-cyan-500 via-indigo-500 to-violet-500 bg-clip-text text-transparent">
-                  {t('hero.title2')}
-                </span>
-                {/* Underline shimmer */}
-                <motion.span
-                  className="absolute bottom-0 left-0 h-[3px] w-full rounded-full bg-gradient-to-r from-cyan-400 via-indigo-400 to-violet-400 opacity-60"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ delay: 0.6, duration: 0.8, ease: 'easeOut' }}
-                  style={{ transformOrigin: 'left' }}
-                />
+              <span className="block mt-2 sm:mt-3 text-[#151b54] dark:text-slate-100 font-bold tracking-tight">
+                Starts Here
+                <span className="inline-block w-2.5 h-2.5 rounded-full bg-[#cd2127] ml-2.5 align-baseline" title="Cultural Center Accent" />
               </span>
             </h1>
 
-            <p
-              className="text-lg lg:text-xl leading-relaxed mb-10 max-w-lg"
-              style={{ color: 'var(--text-secondary)' }}
-            >
+            {/* Elegant Japanese Subheading (Secondary, Navy/Slate, Muted) */}
+            <p className="font-serif-jp text-sm sm:text-base tracking-widest text-[#151b54]/75 dark:text-slate-300 font-medium mb-5">
+              {t('hero.jpLine')}
+            </p>
+
+            {/* Clean 2-3 Line Educational Description */}
+            <p className="text-base sm:text-lg leading-relaxed text-slate-600 dark:text-slate-300 mb-8 max-w-xl font-normal">
               {t('hero.subtitle')}
             </p>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-wrap gap-4 mb-14">
-              <motion.button
-                whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(99,102,241,0.5)' }}
-                whileTap={{ scale: 0.97 }}
-                className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-bold text-white text-base overflow-hidden"
-                style={{ background: 'linear-gradient(135deg, #4F46E5, #7C3AED, #0EA5E9)' }}
+            {/* ── 3 Professional CTA Buttons with Clean Hierarchy ── */}
+            <div className="flex flex-wrap items-center gap-3.5 sm:gap-4 mb-10">
+              {/* Primary CTA: World Lanka Navy Blue */}
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="group inline-flex items-center gap-2.5 px-6 sm:px-7 py-3.5 rounded-xl font-bold text-white text-sm sm:text-base shadow-md transition-all duration-200 bg-[#151b54] hover:bg-[#1f2878] hover:shadow-lg hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
               >
-                <span className="relative z-10">{t('hero.learnWithUs')}</span>
-                <ArrowRight className="relative z-10 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                {/* Shimmer sweep */}
-                <motion.span
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-                  animate={{ x: ['-100%', '200%'] }}
-                  transition={{ duration: 2.5, repeat: Infinity, ease: 'linear', repeatDelay: 1 }}
-                />
-              </motion.button>
+                <span>{t('hero.startLearning')}</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
 
-              <motion.button
-                whileHover={{
-                  scale: 1.03,
-                  backgroundColor: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(99,102,241,0.08)',
-                }}
-                whileTap={{ scale: 0.97 }}
-                className={`inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-semibold text-base transition-colors backdrop-blur-sm border ${
-                  isDark
-                    ? 'text-white/80 border-white/20 bg-white/5'
-                    : 'text-slate-700 border-slate-300/60 bg-white/70'
-                }`}
+              {/* Secondary CTA: Clean White Background, Navy Border & Text */}
+              <button
+                onClick={() => scrollToSection('grades')}
+                className="inline-flex items-center gap-2 px-5 sm:px-6 py-3.5 rounded-xl font-semibold text-sm sm:text-base transition-all bg-white dark:bg-slate-900 border-2 border-[#151b54] text-[#151b54] dark:text-white dark:border-white/30 hover:bg-slate-50 dark:hover:bg-slate-800 hover:scale-[1.01] active:scale-[0.99] cursor-pointer shadow-xs"
               >
-                <PlayCircle className={`w-5 h-5 ${isDark ? 'text-cyan-400' : 'text-cyan-600'}`} />
-                Watch Demo
-              </motion.button>
+                <BookOpen className="w-4 h-4 text-[#151b54] dark:text-sky-300" />
+                <span>{t('hero.exploreCourses')}</span>
+              </button>
+
+              {/* Tertiary CTA: Subtle and Secondary */}
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="inline-flex items-center gap-1.5 px-3 py-3.5 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-[#151b54] dark:hover:text-white transition-colors cursor-pointer"
+              >
+                <span>{t('hero.contactUs')}</span>
+                <ChevronRight className="w-4 h-4" />
+              </button>
             </div>
 
-            {/* Social proof row */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="flex flex-wrap items-center gap-6"
-            >
-              {/* Avatars */}
-              <div className="flex items-center gap-2">
-                <div className="flex -space-x-2">
-                  {['#4F46E5', '#7C3AED', '#0EA5E9', '#06B6D4'].map((color, i) => (
-                    <div
-                      key={i}
-                      className="w-9 h-9 rounded-full border-2 flex items-center justify-center text-white text-xs font-bold"
-                      style={{
-                        background: color,
-                        borderColor: 'var(--bg-base)',
-                      }}
-                    >
-                      {['YK', 'AM', 'RS', 'LN'][i]}
+            {/* ── Educational Hallmarks: Navy Icons, Navy Headings, Muted Gray Descriptions ── */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-slate-200/80 dark:border-white/10">
+              {[
+                { title: 'JLPT N5 – N1', desc: 'Structured learning levels' },
+                { title: 'Cultural Etiquette', desc: 'Authentic traditions & manners' },
+                { title: 'Exam Focus', desc: 'Practical language training' },
+              ].map((item, i) => (
+                <div key={i} className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#151b54] dark:text-sky-400 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <div className="font-bold text-xs sm:text-sm text-[#151b54] dark:text-white">
+                      {item.title}
                     </div>
-                  ))}
+                    <div className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                      {item.desc}
+                    </div>
+                  </div>
                 </div>
-                <div className="ml-1">
-                  <div className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>15,000+</div>
-                  <div className="text-xs" style={{ color: 'var(--text-tertiary)' }}>Active Students</div>
-                </div>
-              </div>
-
-              <div className="w-px h-8" style={{ background: 'var(--border-color)' }} />
-
-              {/* Stars */}
-              <div className="flex items-center gap-2">
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                  ))}
-                </div>
-                <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>4.9/5 Rating</span>
-              </div>
-            </motion.div>
+              ))}
+            </div>
           </motion.div>
 
-          {/* ────── RIGHT: Visual cards ────── */}
+          {/* ────── RIGHT COLUMN: Refined Classroom Visual with Clean Integrated Card ────── */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut', delay: 0.15 }}
-            className="relative"
+            className="lg:col-span-5 relative"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.15 }}
           >
-            {/* Central glassmorphism hero card */}
-            <motion.div
-              variants={floatVariants}
-              initial="initial"
-              animate="animate"
-              className="relative rounded-3xl overflow-hidden shadow-2xl"
-              style={{
-                background: isDark
-                  ? 'linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 100%)'
-                  : 'linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.60) 100%)',
-                border: `1px solid ${isDark ? 'rgba(255,255,255,0.10)' : 'rgba(0,0,0,0.07)'}`,
-                backdropFilter: 'blur(20px)',
-              }}
-            >
-              {/* Kanji hero image area */}
-              <div
-                className="relative h-64 overflow-hidden"
-                style={{
-                  background: isDark
-                    ? 'linear-gradient(135deg, #0a0f2e, #1a0533)'
-                    : 'linear-gradient(135deg, #dbeafe, #ede9fe)',
-                }}
-              >
-                {/* Animated kanji grid */}
-                <div className="absolute inset-0 grid grid-cols-5 grid-rows-3 gap-1 p-3 opacity-20">
-                  {['日', '本', '語', '学', '習', '文', '字', '勉', '強', '先', '生', '練', '習', '会', '話'].map((k, i) => (
-                    <motion.div
-                      key={i}
-                      className={`flex items-center justify-center text-2xl font-bold ${isDark ? 'text-cyan-300' : 'text-indigo-500'}`}
-                      style={{ fontFamily: 'serif' }}
-                      animate={{ opacity: [0.2, 0.8, 0.2] }}
-                      transition={{ duration: 3 + (i % 4), repeat: Infinity, delay: i * 0.2 }}
-                    >
-                      {k}
-                    </motion.div>
-                  ))}
+            <div className="relative mx-auto max-w-md lg:max-w-none">
+              
+              {/* Outer Container with Professional Radius & Subtle Shadow */}
+              <div className="rounded-3xl overflow-hidden shadow-xl border border-slate-200/90 dark:border-white/10 bg-white dark:bg-slate-900 transition-all">
+                
+                {/* Image Container with Natural Logo & Minimal "Classroom & Online" Badge */}
+                <div className="relative h-64 sm:h-80 w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
+                  <img
+                    src="/hero-japan.jpg"
+                    alt="Japanese Language Classroom with Study Notebooks and View of Japan"
+                    className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-102"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+
+                  {/* Clean Top Badges without Clutter */}
+                  <div className="absolute top-3.5 left-3.5 right-3.5 flex justify-between items-center">
+                    {/* Natural Logo without Outline/Border Box */}
+                    <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-2.5 py-1 rounded-lg shadow-xs">
+                      <img
+                        src="/logo.png"
+                        alt="World Lanka Japanese Education"
+                        className="h-6 sm:h-7 w-auto object-contain"
+                      />
+                    </div>
+
+                    {/* Minimal Integrated Status Badge */}
+                    <div className="bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full text-[11px] text-white font-medium flex items-center gap-1.5 shadow-xs">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                      <span>Classroom & Online</span>
+                    </div>
+                  </div>
+
+                  {/* Clean Bottom Overlay Line */}
+                  <div className="absolute bottom-3.5 left-4 right-4 text-white">
+                    <div className="text-xs font-semibold tracking-wide text-white/95">
+                      World Lanka Japanese Language Education
+                    </div>
+                  </div>
                 </div>
 
-                {/* Center glowing orb */}
-                <motion.div
-                  variants={pulseVariants}
-                  initial="initial"
-                  animate="animate"
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full"
-                  style={{
-                    background: isDark
-                      ? 'radial-gradient(circle, rgba(99,102,241,0.6), rgba(14,165,233,0.2), transparent)'
-                      : 'radial-gradient(circle, rgba(99,102,241,0.3), rgba(167,139,250,0.15), transparent)',
-                  }}
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span
-                    className={`text-6xl font-black tracking-tight drop-shadow-2xl ${isDark ? 'text-white/90' : 'text-indigo-800/90'}`}
-                    style={{
-                      fontFamily: 'serif',
-                      textShadow: isDark
-                        ? '0 0 40px rgba(99,102,241,0.8)'
-                        : '0 0 30px rgba(99,102,241,0.4)',
-                    }}
-                  >
-                    日本語
-                  </span>
+                {/* ── Fixed "Cultural Understanding" Card: Neatly Integrated Underneath Image (Option A) ── */}
+                <div className="p-4 sm:p-5 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-white/10 flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-[#151b54]/5 dark:bg-white/10 text-[#151b54] dark:text-sky-300 font-serif-jp font-bold flex items-center justify-center text-base border border-[#151b54]/10 dark:border-white/10 flex-shrink-0">
+                      和
+                    </div>
+                    <div>
+                      <div className="font-bold text-sm text-[#151b54] dark:text-white leading-tight">
+                        Cultural Understanding
+                      </div>
+                      <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                        Etiquette, Traditions & Manners
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-1 text-[11px] font-semibold text-[#151b54] dark:text-sky-400 bg-slate-50 dark:bg-slate-800 px-2.5 py-1 rounded-md border border-slate-200/60 dark:border-white/5 flex-shrink-0">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#cd2127]" />
+                    <span>The Cultural Center</span>
+                  </div>
                 </div>
               </div>
-
-              {/* Card bottom stats */}
-              <div className="p-6 grid grid-cols-3 gap-4" style={{ background: 'var(--glass-bg)' }}>
-                {[
-                  { icon: BookOpen, label: 'Courses', value: '200+', color: isDark ? 'text-cyan-400' : 'text-cyan-600' },
-                  { icon: Users, label: 'Students', value: '15K+', color: isDark ? 'text-violet-400' : 'text-violet-600' },
-                  { icon: TrendingUp, label: 'Pass Rate', value: '98%', color: isDark ? 'text-emerald-400' : 'text-emerald-600' },
-                ].map(({ icon: Icon, label, value, color }, i) => (
-                  <motion.div
-                    key={i}
-                    whileHover={{ scale: 1.05 }}
-                    className="text-center p-3 rounded-xl cursor-pointer"
-                    style={{
-                      background: 'var(--card-bg)',
-                      border: '1px solid var(--card-border)',
-                    }}
-                  >
-                    <Icon className={`w-5 h-5 mx-auto mb-1 ${color}`} />
-                    <div className={`text-xl font-black ${color}`}>{value}</div>
-                    <div className="text-xs" style={{ color: 'var(--text-tertiary)' }}>{label}</div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* ── Floating badge: Live class ── */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, x: 20 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              transition={{ delay: 0.9, type: 'spring', stiffness: 200 }}
-              className="absolute -top-5 -right-5 flex items-center gap-3 px-4 py-3 rounded-2xl shadow-xl"
-              style={{
-                background: isDark ? 'rgba(10,15,46,0.9)' : 'rgba(255,255,255,0.95)',
-                border: `1px solid ${isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.08)'}`,
-                backdropFilter: 'blur(16px)',
-              }}
-            >
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-400" />
-              </span>
-              <div>
-                <div className="text-xs font-bold" style={{ color: 'var(--text-primary)' }}>Live Class Now</div>
-                <div className="text-[10px]" style={{ color: 'var(--text-tertiary)' }}>JLPT N3 Grammar</div>
-              </div>
-            </motion.div>
-
-            {/* ── Floating badge: Streak ── */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, x: -20 }}
-              animate={{ opacity: 1, scale: 1, x: 0 }}
-              transition={{ delay: 1.1, type: 'spring', stiffness: 200 }}
-              className="absolute -bottom-5 -left-5 flex items-center gap-3 px-4 py-3 rounded-2xl shadow-xl"
-              style={{
-                background: isDark ? 'rgba(10,15,46,0.9)' : 'rgba(255,255,255,0.95)',
-                border: `1px solid ${isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.08)'}`,
-                backdropFilter: 'blur(16px)',
-              }}
-            >
-              <span className="text-2xl">🔥</span>
-              <div>
-                <div className="text-xs font-bold" style={{ color: 'var(--text-primary)' }}>12 Day Streak!</div>
-                <div className="text-[10px]" style={{ color: 'var(--text-tertiary)' }}>Keep it up 頑張って</div>
-              </div>
-            </motion.div>
-
-            {/* ── Floating JLPT level pill ── */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.3, type: 'spring', stiffness: 180 }}
-              className="absolute top-1/2 -right-8 -translate-y-1/2 flex flex-col gap-2"
-            >
-              {['N5', 'N4', 'N3', 'N2', 'N1'].map((level, i) => (
-                <motion.div
-                  key={level}
-                  whileHover={{ x: -6, scale: 1.1 }}
-                  className="px-3 py-1.5 rounded-lg text-xs font-black text-white shadow-lg cursor-pointer transition-all"
-                  style={{
-                    background: [
-                      'linear-gradient(135deg,#3B82F6,#6366F1)',
-                      'linear-gradient(135deg,#6366F1,#8B5CF6)',
-                      'linear-gradient(135deg,#8B5CF6,#A855F7)',
-                      'linear-gradient(135deg,#A855F7,#D946EF)',
-                      'linear-gradient(135deg,#D946EF,#EC4899)',
-                    ][i],
-                    opacity: 0.9,
-                  }}
-                >
-                  {level}
-                </motion.div>
-              ))}
-            </motion.div>
+            </div>
           </motion.div>
         </div>
-
-        {/* ── Bottom scroll indicator ── */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        >
-          <span className="text-xs uppercase tracking-widest" style={{ color: 'var(--text-tertiary)' }}>Scroll to explore</span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-            className="w-5 h-8 rounded-full flex items-start justify-center p-1"
-            style={{ border: '1px solid var(--border-color)' }}
-          >
-            <div className="w-1 h-2 rounded-full" style={{ background: 'var(--text-tertiary)' }} />
-          </motion.div>
-        </motion.div>
       </div>
     </section>
   );

@@ -7,19 +7,37 @@ export default {content: [
   theme: {
     extend: {
       colors: {
+        // World Lanka Brand Palette
+        wlNavy: {
+          DEFAULT: '#151b54',
+          50: '#f0f3fa',
+          100: '#dce2f4',
+          200: '#bdc9eb',
+          500: '#202b78',
+          900: '#151b54',
+          dark: '#0a0e2a',
+        },
+        wlRed: {
+          DEFAULT: '#cd2127',
+          50: '#fff1f2',
+          100: '#ffe4e6',
+          500: '#dc2626',
+          600: '#cd2127',
+          700: '#b91c1c',
+        },
         // Dark-mode-ready tokens driven by CSS variables (see index.css)
         ink: 'rgb(var(--color-ink) / <alpha-value>)',
         surface: 'rgb(var(--color-surface) / <alpha-value>)',
         muted: 'rgb(var(--color-muted) / <alpha-value>)',
         line: 'rgb(var(--color-line) / <alpha-value>)',
         brand: {
-          DEFAULT: '#2563EB',
+          DEFAULT: '#151b54',
           50: '#EFF5FF',
           100: '#DBE8FE',
           200: '#BFD5FE',
           300: '#93B8FD',
           400: '#3B82F6',
-          500: '#2563EB',
+          500: '#151b54',
           600: '#1D4FD8',
           700: '#1E40AF',
           800: '#1E3A8A',
@@ -27,8 +45,9 @@ export default {content: [
         },
       },
       fontFamily: {
-        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        jp: ['"Noto Sans JP"', 'Inter', 'sans-serif'],
+        sans: ['Inter', '"Noto Sans Sinhala"', '"Noto Sans JP"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        jp: ['"Noto Sans JP"', '"Noto Serif JP"', 'sans-serif'],
+        sinhala: ['"Noto Sans Sinhala"', 'sans-serif'],
       },
       borderRadius: {
         '2xl': '1rem',

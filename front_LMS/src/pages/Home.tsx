@@ -1,39 +1,37 @@
-
 import { Navigation } from '../components/Navigation';
 import { Hero } from '../components/Hero';
-import { TrustLogos } from '../components/TrustLogos';
-import { LearningCategories } from '../components/LearningCategories';
-import { WhyChooseUs } from '../components/WhyChooseUs';
-import { DashboardPreview } from '../components/DashboardPreview';
-import { InteractiveLearning } from '../components/InteractiveLearning';
-import { LearningJourney } from '../components/LearningJourney';
-import { Testimonials } from '../components/Testimonials';
-import { Stats } from '../components/Stats';
-import { BlogPreview } from '../components/BlogPreview';
+import { SriLankaBanner } from '../components/SriLankaBanner';
+import { AboutSection } from '../components/AboutSection';
+import { ImpactSection } from '../components/ImpactSection';
+import { GradesSection } from '../components/GradesSection';
+import { WhatWeOfferSection } from '../components/WhatWeOfferSection';
+import { ResourcesSection } from '../components/ResourcesSection';
+import { BlogSection } from '../components/BlogSection';
 import { FAQ } from '../components/FAQ';
+import { ContactSection } from '../components/ContactSection';
 import { CTA } from '../components/CTA';
 import { Footer } from '../components/Footer';
 import { SupportButton } from '../components/SupportButton';
+
 export function Home() {
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg-base)' }}>
       <Navigation />
       <main>
         <Hero />
-        <TrustLogos />
-        <LearningCategories />
-        <WhyChooseUs />
-        <DashboardPreview />
-        <InteractiveLearning />
-        <LearningJourney />
-        <Testimonials />
-        <Stats />
-        <BlogPreview />
+        <SriLankaBanner />
+        <AboutSection />
+        <ImpactSection />
+        <GradesSection />
+        <WhatWeOfferSection />
+        <ResourcesSection />
+        <BlogSection limit={3} />
         <FAQ />
+        <ContactSection />
         <CTA />
       </main>
       <Footer />
       <SupportButton />
-    </div>);
-
+    </div>
+  );
 }

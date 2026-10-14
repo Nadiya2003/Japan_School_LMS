@@ -1,5 +1,5 @@
 /* @import url() FONT IMPORTS MUST ALWAYS BE AT THE VERY TOP OF THIS FILE, ABOVE THE TAILWIND IMPORTS — DO NOT DELETE THIS COMMENT */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;500;600;700&family=Noto+Serif+JP:wght@600;700&display=swap');
 
 /* CRITICAL: THE FOLLOWING TAILWIND IMPORTS MUST NEVER BE DELETED OR REORDERED — DO NOT DELETE THIS COMMENT */
 @import 'tailwindcss/base';
@@ -9,96 +9,111 @@
 /* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
 
 /* ═══════════════════════════════════════════════
-   LIGHT MODE (default)
+   LIGHT MODE (default) - Refined Japanese Education Aesthetic
    ═══════════════════════════════════════════════ */
 :root {
+  /* Brand Core (from World Lanka Logo) */
+  --brand-navy:       #151b54;       /* Official logo navy */
+  --brand-navy-dark:  #0d1137;
+  --brand-navy-light: #202b78;
+  --brand-red:        #cd2127;       /* Official logo crimson red */
+  --brand-red-hover:  #b91c1c;
+  --brand-red-subtle: #fff1f2;
+
   /* Backgrounds */
-  --bg-base:        #f0f4ff;       /* soft blue-white page background */
-  --bg-surface:     #ffffff;       /* card / panel surface */
-  --bg-muted:       #e8eef8;       /* subtle panel, borders */
-  --bg-subtle:      #f5f8ff;       /* hover states, rows */
-  --bg-nav:         rgba(240,244,255,0.85);
+  --bg-base:        #fafbfc;       /* crisp, clean off-white */
+  --bg-surface:     #ffffff;       /* clean card / panel surface */
+  --bg-muted:       #f1f5f9;       /* subtle panel, borders */
+  --bg-subtle:      #f8fafc;       /* hover states, rows */
+  --bg-nav:         rgba(255,255,255,0.92);
 
   /* Text */
-  --text-primary:   #0f172a;       /* near black */
-  --text-secondary: #475569;       /* muted text */
-  --text-tertiary:  #94a3b8;       /* placeholder / disabled */
+  --text-primary:   #0f172a;       /* deep trustworthy charcoal */
+  --text-secondary: #334155;       /* clear readable body text */
+  --text-tertiary:  #64748b;       /* secondary captions */
 
-  /* Brand accent */
-  --accent-cyan:    #0891b2;       /* darker cyan for light readability */
-  --accent-violet:  #7c3aed;
+  /* Accents */
+  --accent-cyan:    #151b54;       /* Primary accent */
+  --accent-violet:  #cd2127;       /* Red accent */
 
   /* Borders */
-  --border-color:   rgba(0,0,0,0.08);
-  --border-strong:  rgba(0,0,0,0.15);
+  --border-color:   rgba(15,23,42,0.08);
+  --border-strong:  rgba(15,23,42,0.16);
 
   /* Hero */
-  --hero-bg-from:   #dbeafe;
-  --hero-bg-via:    #ede9fe;
-  --hero-bg-to:     #f0f9ff;
+  --hero-bg-from:   #f8fafc;
+  --hero-bg-via:    #fdf4f5;
+  --hero-bg-to:     #f1f5f9;
 
   /* Glass card */
-  --glass-bg:       rgba(255,255,255,0.6);
-  --glass-border:   rgba(0,0,0,0.08);
+  --glass-bg:       rgba(255,255,255,0.85);
+  --glass-border:   rgba(15,23,42,0.08);
 
   /* Scrollbar */
   --scrollbar-thumb: #94a3b8;
   --scrollbar-hover: #64748b;
 
   /* Nav shadow */
-  --nav-shadow:     0 2px 20px rgba(0,0,0,0.08);
+  --nav-shadow:     0 4px 20px rgba(21,27,84,0.06);
 
   /* Stats / feature card */
-  --card-bg:        rgba(255,255,255,0.7);
-  --card-border:    rgba(0,0,0,0.07);
-  --card-hover-bg:  rgba(255,255,255,0.95);
+  --card-bg:        #ffffff;
+  --card-border:    rgba(15,23,42,0.08);
+  --card-hover-bg:  #ffffff;
 
   /* Section divider */
-  --divider:        rgba(0,0,0,0.07);
+  --divider:        rgba(15,23,42,0.06);
 
-  /* Glow overlay for hero orbs — still visible on light */
-  --glow-opacity:   0.12;
+  /* Glow overlay */
+  --glow-opacity:   0.08;
 }
 
 /* ═══════════════════════════════════════════════
    DARK MODE — activated by .dark on <html>
    ═══════════════════════════════════════════════ */
 html.dark {
-  --bg-base:        #020817;
-  --bg-surface:     #0a0f2e;
-  --bg-muted:       #0f172a;
-  --bg-subtle:      #111827;
-  --bg-nav:         rgba(2,8,23,0.85);
+  --brand-navy:       #151b54;
+  --brand-navy-dark:  #0a0f2b;
+  --brand-navy-light: #2b3990;
+  --brand-red:        #ef4444;
+  --brand-red-hover:  #dc2626;
+  --brand-red-subtle: rgba(239,68,68,0.12);
 
-  --text-primary:   #f1f5f9;
-  --text-secondary: rgba(255,255,255,0.65);
-  --text-tertiary:  rgba(255,255,255,0.35);
+  --bg-base:        #080c1d;       /* deep navy black */
+  --bg-surface:     #0f1738;       /* sleek midnight navy */
+  --bg-muted:       #172048;       /* muted panel */
+  --bg-subtle:      #121b40;
+  --bg-nav:         rgba(8,12,29,0.92);
 
-  --accent-cyan:    #22d3ee;
-  --accent-violet:  #a78bfa;
+  --text-primary:   #f8fafc;
+  --text-secondary: rgba(255,255,255,0.75);
+  --text-tertiary:  rgba(255,255,255,0.45);
 
-  --border-color:   rgba(255,255,255,0.08);
-  --border-strong:  rgba(255,255,255,0.15);
+  --accent-cyan:    #38bdf8;
+  --accent-violet:  #f87171;
 
-  --hero-bg-from:   #020817;
-  --hero-bg-via:    #0a0f2e;
-  --hero-bg-to:     #050c1a;
+  --border-color:   rgba(255,255,255,0.10);
+  --border-strong:  rgba(255,255,255,0.18);
 
-  --glass-bg:       rgba(255,255,255,0.05);
+  --hero-bg-from:   #080c1d;
+  --hero-bg-via:    #11183c;
+  --hero-bg-to:     #0c1228;
+
+  --glass-bg:       rgba(15,23,56,0.7);
   --glass-border:   rgba(255,255,255,0.10);
 
   --scrollbar-thumb: #334155;
   --scrollbar-hover: #475569;
 
-  --nav-shadow:     0 2px 20px rgba(0,0,0,0.4);
+  --nav-shadow:     0 4px 20px rgba(0,0,0,0.5);
 
-  --card-bg:        rgba(255,255,255,0.04);
-  --card-border:    rgba(255,255,255,0.08);
-  --card-hover-bg:  rgba(255,255,255,0.09);
+  --card-bg:        rgba(15,23,56,0.65);
+  --card-border:    rgba(255,255,255,0.10);
+  --card-hover-bg:  rgba(23,32,72,0.8);
 
-  --divider:        rgba(255,255,255,0.08);
+  --divider:        rgba(255,255,255,0.10);
 
-  --glow-opacity:   0.25;
+  --glow-opacity:   0.20;
 }
 
 /* ═══════════════════════════════════════════════
@@ -108,7 +123,7 @@ html {
   scroll-behavior: smooth;
 }
 body {
-  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Inter', 'Noto Sans Sinhala', 'Noto Sans JP', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   color: var(--text-primary);
@@ -143,12 +158,32 @@ body {
   -webkit-backdrop-filter: blur(20px);
 }
 
-/* Gradient text (brand) */
+/* Japanese & Sinhala Fonts */
+.font-jp {
+  font-family: 'Noto Sans JP', sans-serif;
+}
+.font-serif-jp {
+  font-family: 'Noto Serif JP', 'Noto Sans JP', serif;
+}
+.font-sinhala {
+  font-family: 'Noto Sans Sinhala', sans-serif;
+}
+
+/* Brand gradient text */
 .text-gradient {
-  background: linear-gradient(90deg, #0891b2, #4f46e5, #7c3aed);
+  background: linear-gradient(135deg, var(--brand-navy), var(--brand-red));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+/* Subtle Japanese geometric patterns */
+.bg-shippo {
+  background-image: radial-gradient(circle, rgba(21,27,84,0.05) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
+html.dark .bg-shippo {
+  background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1.5px, transparent 1.5px);
 }
 
 /* Skeleton shimmer */

@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, GraduationCap } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 
 export function CTA() {
@@ -8,65 +9,68 @@ export function CTA() {
   const { isDark } = useTheme();
 
   return (
-    <section
-      className="py-24 relative overflow-hidden"
-      style={{ borderTop: '1px solid var(--divider)' }}
-    >
-      {/* Background ambient glow */}
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full blur-[120px] pointer-events-none"
-        style={{ background: isDark ? 'rgba(6,182,212,0.10)' : 'rgba(6,182,212,0.06)' }}
-      />
-
+    <section className="py-20 lg:py-28 relative overflow-hidden" style={{ background: 'var(--bg-base)' }}>
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl"
+          className="rounded-3xl p-10 sm:p-14 md:p-16 text-center relative overflow-hidden shadow-xl border"
           style={{
             background: isDark
-              ? 'rgba(255,255,255,0.05)'
-              : 'rgba(255,255,255,0.85)',
-            border: '1px solid var(--border-color)',
-            backdropFilter: 'blur(20px)',
+              ? 'linear-gradient(135deg, rgba(21,27,84,0.4), rgba(205,33,39,0.15))'
+              : 'linear-gradient(135deg, #ffffff, #fff5f5)',
+            borderColor: 'var(--border-strong)',
           }}
         >
-          {/* Decorative background elements */}
+          {/* Subtle Sakura Blossom Gradient */}
           <div
-            className="absolute top-0 right-0 w-64 h-64 rounded-full blur-[80px]"
-            style={{ background: isDark ? 'rgba(6,182,212,0.18)' : 'rgba(6,182,212,0.10)' }}
-          />
-          <div
-            className="absolute bottom-0 left-0 w-64 h-64 rounded-full blur-[80px]"
-            style={{ background: isDark ? 'rgba(124,58,237,0.18)' : 'rgba(124,58,237,0.08)' }}
+            className="absolute top-0 right-0 w-80 h-80 rounded-full blur-[90px] pointer-events-none"
+            style={{ background: 'rgba(205,33,39,0.08)' }}
           />
 
           <div className="relative z-10">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
-              {t('cta.title')}
+            {/* Center Logo */}
+            <div className="inline-block mb-6">
+              <img
+                src="/logo.png"
+                alt="World Lanka Japanese Education"
+                className="h-11 sm:h-13 w-auto object-contain"
+              />
+            </div>
+
+            <div className="font-serif-jp text-base sm:text-lg text-[#cd2127] dark:text-red-400 font-bold mb-2">
+              日本語を学び、未来への一歩を踏み出そう。
+            </div>
+
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4" style={{ color: 'var(--text-primary)' }}>
+              {t('contact.title')}
             </h2>
-            <p className="text-xl mb-10 max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
-              Join thousands of students worldwide and master Japanese with our premium platform.
+
+            <p className="text-base sm:text-lg mb-8 max-w-2xl mx-auto leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+              {t('contact.subtitle')}
             </p>
 
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <a
-                href="#"
-                className="px-8 py-4 rounded-full bg-gradient-to-r from-cyan-500 to-violet-600 text-white font-bold text-lg hover:opacity-90 hover:shadow-[0_0_24px_rgba(99,102,241,0.4)] transition-all duration-300 flex items-center justify-center gap-2"
+              <Link
+                to="/contact"
+                className="px-8 py-4 rounded-xl bg-[#cd2127] hover:bg-red-700 text-white font-bold text-base shadow-lg transition-all flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98]"
               >
-                {t('cta.button')} <ArrowRight className="w-5 h-5" />
-              </a>
-              <a
-                href="#"
-                className={`px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 backdrop-blur-sm border ${
-                  isDark
-                    ? 'bg-white/10 text-white hover:bg-white/20 border-white/10'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200'
-                }`}
+                <GraduationCap className="w-5 h-5" />
+                <span>{t('hero.startLearning')}</span>
+              </Link>
+              <Link
+                to="/grades"
+                className="px-8 py-4 rounded-xl font-semibold text-base transition-all border flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98]"
+                style={{
+                  background: 'var(--card-bg)',
+                  borderColor: 'var(--border-strong)',
+                  color: 'var(--text-primary)',
+                }}
               >
-                Contact Us
-              </a>
+                <span>{t('hero.exploreCourses')}</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
           </div>
         </motion.div>
