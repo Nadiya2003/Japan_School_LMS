@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Search, User, Sun, Moon } from 'lucide-react';
+import { Menu, X, Sun, Moon, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 
 export function Navigation() {
@@ -10,10 +9,37 @@ export function Navigation() {
   const { isDark, toggleTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>('about');
 
+  const navLinks = [
+    { key: 'aboutUs', label: t('nav.aboutUs'), targetId: 'about' },
+    { key: 'impact', label: t('nav.impact'), targetId: 'impact' },
+    { key: 'grades', label: t('nav.grades'), targetId: 'grades' },
+    { key: 'resources', label: t('nav.resources'), targetId: 'resources' },
+    { key: 'whatWeOffer', label: t('nav.whatWeOffer'), targetId: 'what-we-offer' },
+    { key: 'blog', label: t('nav.blog'), targetId: 'blog' },
+    { key: 'contact', label: t('nav.contact'), targetId: 'contact' },
+  ];
+
+  // Track active section and scroll state
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+
+      const sectionIds = ['contact', 'blog', 'resources', 'what-we-offer', 'grades', 'impact', 'about'];
+      const scrollPosition = window.scrollY + 140;
+
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= scrollPosition) {
+          setActiveSection(id);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -21,95 +47,112 @@ export function Navigation() {
     i18n.changeLanguage(lng);
   };
 
-  const navLinks = [
-    { key: 'aboutUs', label: t('nav.aboutUs'), path: '/about' },
-    { key: 'impact', label: t('nav.impact'), path: '/impact' },
-    { key: 'grades', label: t('nav.grades'), path: '/grades' },
-    { key: 'resources', label: t('nav.resources'), path: '/resources' },
-    { key: 'whatWeOffer', label: t('nav.whatWeOffer'), path: '/what-we-offer' },
-    { key: 'blog', label: t('nav.blog'), path: '/blog' },
-    { key: 'contact', label: t('nav.contact'), path: '/contact' },
-  ];
+  const scrollToSection = (targetId: string) => {
+    setMobileMenuOpen(false);
+    const element = document.getElementById(targetId);
+    if (element) {
+      const headerOffset = 112; // Height of the sticky navigation
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
-  /* ── Derived theme-aware class fragments ── */
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    } else {
+      window.location.href = `/#${targetId}`;
+    }
+  };
+
+  const scrollToTop = () => {
+    setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  /* ── Derived theme-aware styling ── */
   const topBarBg = isScrolled
     ? isDark
-      ? 'bg-[#020817]/80 backdrop-blur-md shadow-lg border-b border-white/10'
-      : 'bg-white/80 backdrop-blur-md shadow-lg border-b border-black/10'
+      ? 'bg-[#080c1d]/95 backdrop-blur-md shadow-sm border-b border-white/10'
+      : 'bg-white/95 backdrop-blur-md shadow-xs border-b border-slate-200/80'
     : isDark
-      ? 'bg-transparent border-b border-white/5'
-      : 'bg-transparent border-b border-black/5';
-
-  const mainNavBg = isScrolled
-    ? isDark
-      ? 'bg-[#020817]/95 backdrop-blur-md shadow-xl border-b border-white/10'
-      : 'bg-white/95 backdrop-blur-md shadow-xl border-b border-black/10'
-    : isDark
-      ? 'bg-[#020817]/40 backdrop-blur-sm border-b border-white/10'
-      : 'bg-white/40 backdrop-blur-sm border-b border-black/8';
-
-  const textColor   = isDark ? 'text-white/80' : 'text-slate-700';
-  const hoverText   = isDark ? 'hover:text-cyan-400' : 'hover:text-cyan-600';
-  const langActive  = isDark
-    ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/50 shadow-glow'
-    : 'bg-cyan-100 text-cyan-700 border-cyan-400/60 shadow-sm';
-  const langDefault = isDark
-    ? 'text-white/70 border-white/10 hover:bg-white/10 hover:border-white/20 hover:text-white'
-    : 'text-slate-600 border-black/10 hover:bg-slate-100 hover:border-slate-300 hover:text-slate-900';
-
-  const searchInput = isDark
-    ? 'bg-white/5 border-white/10 text-white placeholder-white/40 focus:bg-white/10 focus:border-cyan-500/50'
-    : 'bg-slate-100 border-black/10 text-slate-900 placeholder-slate-400 focus:bg-white focus:border-cyan-400/60';
-
-  const mobileMenuBg  = isDark ? 'bg-[#020817]' : 'bg-white';
-  const mobileDivider = isDark ? 'border-white/10' : 'border-black/8';
-  const mobileLinkHover = isDark
-    ? 'text-white/80 hover:bg-white/5 hover:text-cyan-400'
-    : 'text-slate-700 hover:bg-slate-100 hover:text-cyan-600';
-  const mobileSearchInput = isDark
-    ? 'bg-white/5 border-white/10 text-white placeholder-white/40 focus:border-cyan-500/50'
-    : 'bg-slate-100 border-black/10 text-slate-900 placeholder-slate-400 focus:border-cyan-400/60';
+      ? 'bg-[#080c1d] border-b border-white/5'
+      : 'bg-white border-b border-slate-100';
 
   const toggleBg = isDark
-    ? 'bg-white/10 border-white/15 hover:bg-cyan-500/20 hover:border-cyan-500/50 text-amber-300 hover:text-amber-200'
-    : 'bg-slate-100 border-slate-200 hover:bg-amber-50 hover:border-amber-300 text-slate-600 hover:text-amber-600';
+    ? 'bg-white/10 border-white/15 hover:bg-white/15 text-amber-300'
+    : 'bg-slate-100 border-slate-200 hover:bg-slate-200 text-slate-700';
 
   return (
     <header className="w-full fixed top-0 inset-x-0 z-50 flex flex-col">
-      {/* Top Bar */}
+      {/* ── Top Bar: Natural Official Logo, Language Selector & Theme Toggle ── */}
       <div className={`transition-all duration-300 ${topBarBg}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
-          {/* Logo */}
-          <Link to="/" className="flex items-center group">
-            <div className="w-14 h-14 bg-gradient-to-br from-cyan-500 to-violet-600 rounded-xl flex flex-col items-center justify-center text-white font-bold leading-tight shadow-glow transition-transform group-hover:scale-105 cursor-pointer">
-              <span className="text-xl font-serif">日</span>
-              <span className="text-[0.45rem] tracking-widest font-semibold mt-0.5">JAPAN</span>
-            </div>
-          </Link>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex justify-between items-center">
+          
+          {/* Authentic World Lanka Logo — Natural rendering without outline/border rectangle */}
+          <button
+            onClick={scrollToTop}
+            className="flex items-center group cursor-pointer focus:outline-none"
+            title="World Lanka Japanese Education – The Cultural Center"
+          >
+            <img
+              src="/logo.png"
+              alt="WORLD LANKA JAPANESE EDUCATION – THE CULTURAL CENTER"
+              className="h-10 sm:h-11 md:h-12 w-auto object-contain transition-transform group-hover:scale-[1.01]"
+            />
+          </button>
 
-          <div className="flex items-center gap-3">
-            {/* Language Switchers */}
-            <div className="flex items-center gap-2">
-              {['si', 'ta', 'en'].map((lng) => (
-                <button
-                  key={lng}
-                  onClick={() => changeLanguage(lng)}
-                  className={`px-4 py-1.5 text-sm rounded-full border transition-all ${
-                    i18n.language === lng ? langActive : langDefault
-                  }`}
-                >
-                  {lng === 'si' ? 'සිංහල' : lng === 'ta' ? 'தமிழ்' : 'English'}
-                </button>
-              ))}
+          {/* Right Action Cluster: Sri Lanka Focus Message + Language Selector + Theme Toggle */}
+          <div className="flex items-center gap-2 sm:gap-4">
+            
+            {/* Subtle Sri Lanka Focus Badge (Desktop) */}
+            <div className="hidden xl:flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 text-slate-600 dark:text-slate-300">
+              <span className="w-2 h-2 rounded-full bg-[#151b54] dark:bg-sky-400" />
+              <span>Japanese Language Education for Sri Lankan Students</span>
+            </div>
+
+            {/* Language Selector: English | සිංහල | 日本語 */}
+            <div className="inline-flex items-center text-xs sm:text-sm font-medium px-2 py-1 rounded-full border border-slate-200 dark:border-white/10 bg-white dark:bg-slate-900 shadow-2xs backdrop-blur-sm">
+              <button
+                onClick={() => changeLanguage('en')}
+                className={`px-2.5 py-0.5 rounded-full transition-colors cursor-pointer ${
+                  i18n.language === 'en'
+                    ? 'bg-[#151b54] text-white font-semibold'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-[#151b54]'
+                }`}
+              >
+                English
+              </button>
+              <span className="text-slate-300 dark:text-slate-600 px-1 select-none">|</span>
+              <button
+                onClick={() => changeLanguage('si')}
+                className={`px-2.5 py-0.5 rounded-full font-sinhala transition-colors cursor-pointer ${
+                  i18n.language === 'si'
+                    ? 'bg-[#151b54] text-white font-semibold'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-[#151b54]'
+                }`}
+              >
+                සිංහල
+              </button>
+              <span className="text-slate-300 dark:text-slate-600 px-1 select-none">|</span>
+              <button
+                onClick={() => changeLanguage('ja')}
+                className={`px-2.5 py-0.5 rounded-full font-jp transition-colors cursor-pointer ${
+                  i18n.language === 'ja'
+                    ? 'bg-[#151b54] text-white font-semibold'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-[#151b54]'
+                }`}
+              >
+                日本語
+              </button>
             </div>
 
             {/* Theme Toggle */}
             <motion.button
               onClick={toggleTheme}
-              whileHover={{ scale: 1.08 }}
-              whileTap={{ scale: 0.93, rotate: 15 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all ${toggleBg}`}
+              className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full border flex items-center justify-center transition-all cursor-pointer ${toggleBg}`}
             >
               <AnimatePresence mode="wait" initial={false}>
                 {isDark ? (
@@ -118,7 +161,7 @@ export function Navigation() {
                     initial={{ rotate: -90, opacity: 0 }}
                     animate={{ rotate: 0, opacity: 1 }}
                     exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.25 }}
+                    transition={{ duration: 0.2 }}
                   >
                     <Sun className="w-4 h-4" />
                   </motion.span>
@@ -128,109 +171,113 @@ export function Navigation() {
                     initial={{ rotate: 90, opacity: 0 }}
                     animate={{ rotate: 0, opacity: 1 }}
                     exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.25 }}
+                    transition={{ duration: 0.2 }}
                   >
                     <Moon className="w-4 h-4" />
                   </motion.span>
                 )}
               </AnimatePresence>
             </motion.button>
-          </div>
-        </div>
-      </div>
 
-      {/* Main Nav Bar */}
-      <div className={`w-full transition-all duration-300 ${mainNavBg} relative z-40`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
-          
-          {/* Mobile Menu Toggle */}
-          <button
-            className={`lg:hidden transition-colors ${textColor} ${hoverText}`}
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.key}
-                to={link.path}
-                className={`${textColor} text-sm font-semibold ${hoverText} transition-colors relative group`}
-              >
-                {link.label}
-                <span className={`absolute -bottom-4 left-0 w-full h-1 ${isDark ? 'bg-cyan-400' : 'bg-cyan-500'} scale-x-0 group-hover:scale-x-100 transition-transform origin-left rounded-t`} />
-              </Link>
-            ))}
-          </nav>
-
-          {/* Right Actions */}
-          <div className="hidden lg:flex items-center gap-6">
-            {/* Search */}
-            <div className="relative group">
-              <input
-                type="text"
-                placeholder={t('nav.search')}
-                className={`pl-4 pr-10 py-1.5 rounded-full border text-sm focus:outline-none w-48 transition-all focus:w-64 ${searchInput}`}
-              />
-              <Search className={`w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 transition-colors ${isDark ? 'text-white/40 group-focus-within:text-cyan-400' : 'text-slate-400 group-focus-within:text-cyan-500'}`} />
-            </div>
-
-            {/* Login */}
-            <button className={`flex items-center gap-2 font-semibold transition-colors group ${textColor} ${hoverText}`}>
-              {t('nav.login')}
-              <div className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all ${isDark ? 'bg-white/10 border-white/10 group-hover:bg-cyan-500/20 group-hover:border-cyan-500/50' : 'bg-slate-100 border-slate-200 group-hover:bg-cyan-100 group-hover:border-cyan-300'}`}>
-                <User className="w-4 h-4" />
-              </div>
+            {/* Mobile Menu Toggle Button */}
+            <button
+              className="lg:hidden p-1.5 rounded-lg border border-slate-200 dark:border-white/10 text-slate-700 dark:text-slate-200 cursor-pointer"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle navigation menu"
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* ── Main Navigation Bar: World Lanka Navy Blue (`#151b54`) ── */}
+      <div className="w-full bg-[#151b54] dark:bg-[#0d1238] border-b border-[#202b78]/40 shadow-sm relative z-40 hidden lg:block">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-12 flex items-center justify-between">
+          
+          {/* Navigation Links — Smooth Scrolling */}
+          <nav className="flex items-center gap-7">
+            {navLinks.map((link) => {
+              const isActive = activeSection === link.targetId;
+              return (
+                <button
+                  key={link.key}
+                  onClick={() => scrollToSection(link.targetId)}
+                  className={`text-sm tracking-wide transition-colors relative py-1 cursor-pointer font-medium ${
+                    isActive
+                      ? 'text-white font-bold'
+                      : 'text-white/80 hover:text-white'
+                  }`}
+                >
+                  {link.label}
+                  {isActive && (
+                    <motion.span
+                      layoutId="navActiveIndicator"
+                      className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-white shadow-xs"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </button>
+              );
+            })}
+          </nav>
+
+          {/* Quick Contact CTA — Premium Navy/White Contrast with Subtle Accent */}
+          <button
+            onClick={() => scrollToSection('contact')}
+            className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-semibold transition-all bg-white text-[#151b54] hover:bg-slate-100 shadow-xs cursor-pointer active:scale-95"
+          >
+            <span>{t('hero.contactUs')}</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#cd2127]" />
+          </button>
+        </div>
+      </div>
+
+      {/* ── Mobile Menu Dropdown: Smooth Scrolling & Auto-Close ── */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className={`lg:hidden ${mobileMenuBg} border-t ${mobileDivider} overflow-hidden shadow-2xl`}
+            className="lg:hidden bg-white dark:bg-[#080c1d] border-b border-slate-200 dark:border-white/10 overflow-hidden shadow-2xl"
           >
-            <div className="px-4 py-4 space-y-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.key}
-                  to={link.path}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`block px-4 py-3 text-base font-semibold rounded-xl transition-all ${mobileLinkHover}`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <div className={`pt-4 mt-4 border-t ${mobileDivider}`}>
-                <div className="relative mb-4">
-                  <input
-                    type="text"
-                    placeholder={t('nav.search')}
-                    className={`w-full pl-4 pr-10 py-3 rounded-xl border text-base focus:outline-none transition-all ${mobileSearchInput}`}
-                  />
-                  <Search className={`w-5 h-5 absolute right-4 top-1/2 -translate-y-1/2 ${isDark ? 'text-white/40' : 'text-slate-400'}`} />
-                </div>
+            <div className="px-5 py-5 space-y-2">
+              <div className="pb-3 mb-2 border-b border-slate-100 dark:border-white/5 flex items-center justify-between">
+                <span className="text-xs font-semibold uppercase tracking-wider text-[#151b54] dark:text-slate-300">
+                  {t('brand.name')}
+                </span>
+                <span className="text-xs font-semibold text-[#151b54] dark:text-sky-400">
+                  The Cultural Center
+                </span>
+              </div>
 
-                <div className="flex gap-3">
-                  <button className="flex flex-1 items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-violet-600 text-white font-bold hover:opacity-90 transition-opacity">
-                    <User className="w-5 h-5" />
-                    {t('nav.login')}
-                  </button>
-                  {/* Mobile theme toggle */}
+              {navLinks.map((link) => {
+                const isActive = activeSection === link.targetId;
+                return (
                   <button
-                    onClick={toggleTheme}
-                    className={`flex items-center justify-center w-12 h-12 rounded-xl border transition-all ${toggleBg}`}
+                    key={link.key}
+                    onClick={() => scrollToSection(link.targetId)}
+                    className={`w-full text-left px-3 py-2.5 text-base rounded-xl transition-all cursor-pointer flex items-center justify-between ${
+                      isActive
+                        ? 'bg-[#151b54]/10 dark:bg-white/10 text-[#151b54] dark:text-white font-bold'
+                        : 'text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5 font-medium'
+                    }`}
                   >
-                    {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+                    <span>{link.label}</span>
+                    {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#151b54] dark:bg-white" />}
                   </button>
-                </div>
+                );
+              })}
+
+              <div className="pt-4 border-t border-slate-200 dark:border-white/10">
+                <button
+                  onClick={() => scrollToSection('contact')}
+                  className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#151b54] text-white font-semibold text-sm shadow-md cursor-pointer hover:bg-[#1f2878]"
+                >
+                  <span>{t('hero.startLearning')}</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
               </div>
             </div>
           </motion.div>
